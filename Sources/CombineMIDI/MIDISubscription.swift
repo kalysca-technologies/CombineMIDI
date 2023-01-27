@@ -58,6 +58,9 @@ final class MIDISubscription<S: Subscriber>: Subscription where S.Input == MIDIM
                     _ = subscriber.receive(message)
                 }
         }
+        
+        client.addPort(port: port)
+
         for i in 0...MIDIGetNumberOfSources() {
             MIDIPortConnectSource(port, MIDIGetSource(i), nil)
         }
@@ -65,6 +68,7 @@ final class MIDISubscription<S: Subscriber>: Subscription where S.Input == MIDIM
     }
 
     private func disposePort() {
+        client.removePort(port: port)
         MIDIPortDispose(port)
         portCreated = false
     }
