@@ -20,37 +20,30 @@ public final class MIDIClient {
         MIDIClientDispose(client)
     }
     
-    /// Calls connectAll() when necessary, to ensure all sources are connected to all ports
+    /// Calls refreshConnections() when necessary, to ensure all sources are connected to all ports
     private func receiveMIDINotification(notification: UnsafePointer<MIDINotification>) {
         switch notification.pointee.messageID {
         case .msgSetupChanged:
-            print("msgSetupChanged")
-            connectAll()
+            break
         case .msgObjectAdded:
-            print("msgObjectAdded")
-            connectAll()
+            refreshConnections()
         case .msgObjectRemoved:
-            print("msgObjectRemoved")
-            connectAll()
+            break
         case .msgPropertyChanged:
-            print("msgPropertyChanged")
-            connectAll()
+            break
         case .msgThruConnectionsChanged:
-            print("msgThruConnectionsChanged")
-            connectAll()
+            break
         case .msgSerialPortOwnerChanged:
-            print("msgSerialPortOwnerChanged")
-            connectAll()
+            break
         case .msgIOError:
-            print("msgIOError")
-            connectAll()
+            break
         @unknown default:
             break
         }
     }
     
     /// Connects every single port to every single source
-    private func connectAll() {
+    func refreshConnections() {
         for i in 0...MIDIGetNumberOfSources() {
             ports.forEach { port in MIDIPortConnectSource(port, MIDIGetSource(i), nil) }
         }
