@@ -43,7 +43,7 @@ public final class MIDIClient {
     }
     
     /// Connects every single port to every single source
-    func refreshConnections() {
+    public func refreshConnections() {
         for i in 0...MIDIGetNumberOfSources() {
             ports.forEach { port in MIDIPortConnectSource(port, MIDIGetSource(i), nil) }
         }
